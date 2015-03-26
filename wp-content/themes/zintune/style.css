@@ -1,11 +1,11 @@
 /*
 Theme Name: 	ZinTune
 Theme URI: 		http://zintune.com
-Description: 	See how music creators gets ZinTune! Theme
+Description: 	See how music creators gets ZinTune! Theme. This was original created for the Zintune project that acknowledged the hard work of music creatives within the music industry. The application was intended to show you some of the processes music producers, songwriters and singers use to create a great song using an intriguing interface.
 Version: 		1.0
-Author: 		Yarley GEffrard
+Author: 		Yarley Geffrard
 Author URI: 	http://ynodesigns.com
-Tags: 			YarleyG, ZinTune, music sessions theme
+Tags: 			YarleyG, ZinTune, music sessions, music theme, music creation theme, story telling
 */
 
 /*
@@ -18,63 +18,331 @@ CONTENTS:
 ===========================
 */
 
-/* ---------------------------------------------------------------------------------------------------------- 
-01 Sensible defaults ----------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------- */
 
-@import "css/reset.css";
-
-div,
-article,
-section,
-header,
-footer,
-nav,
-li					{ position:relative; /* For absolutely positioning elements within containers (add more to the list if need be) */ }
-.group:after 		{ display:block; height:0; clear:both; content:"."; visibility:hidden; /* For clearing */ }
-body 				{ background:#fff; /* Don't forget to style your body to avoid user overrides */ }
-::-moz-selection 	{ background:#ff0; color:#333; }
-::selection 		{ background:#ff0; color:#333; }
-
-/* ---------------------------------------------------------------------------------------------------------- 
-02 Typography -----------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------- */
 /*
-
-14 / 16	= 		0.875em 		(14px equivalent)
-16 / 16	= 		1em 			(16px equivalent)
-18 / 16 = 		1.125em 		(18px equivalent)
-21 / 16 = 		1.3125em 		(21px equivalent)
-24 / 16 = 		1.5em 			(24px equivalent)
-30 / 16 = 		1.875em 		(30px equivalent)
-
+====================CSS====================================
 */
 
-body,
-input,
-textarea 			{ /* We strongly recommend you declare font-weight using numerical values, but check to see which weights you're exporting first */ }
+/*
+=============COLORCODES=============
+•	Green #24a88f
+•	Green Light #6ED2BE
+•	Green Darker #039C7E
+•	Green Dark #00765F
+•	Orange #f8a678
+•	Orange Dark #F5853C
+•	Orange Med #FF8637
+•   Orange Light #FFA878
 
-h1, 
-h2, 
-h3, 
-h4, 
-h5, 
-h6 					{ font-weight:bold; /* This helps to identify headings at the initial build stage, but you should write something more precise later on */ }
+Font: Lato-Sans (Google)
+*/
 
-/* ---------------------------------------------------------------------------------------------------------- 
-03 Media queries (using a mobile-first approach) ------------------------------------------------------------
----------------------------------------------------------------------------------------------------------- */
+/*
+=============LAYERS & SPACINGS=============
+*/
+/***LAYERS***/
+.layer1{
+    z-index: 2050;
+}
+.layer2{
+    z-index: 2040;
+}
+.layer3{
+    z-index: 2030;
+}
+.layer4{
+    z-index: 2020;
+}
+.layer5{
+    z-index: 2010;
+}
+.layer6{
+    z-index: 2000;
+}
+/***VERTICAL TOP SPACING***/
+.addvtop20{
+    padding-top: 20px;
+}
+.addvtop40{
+    padding-top: 40px;
+}
+.addvtop60{
+    padding-top: 60px;
+}
+.addvtop100{
+    padding-top: 100px;
+}
+/***VERTICAL BOTTOM SPACING***/
+.addvbottom20{
+    padding-bottom: 20px;
+}
+.addvbottom40{
+    padding-bottom: 40px;
+}
+.addvbottom60{
+    padding-bottom: 60px;
+}
+/***PULLUP FOR APPARENT BG ***/
+.pullupcontainer{
+    margin-bottom: -140px;
+}
+.pullupback{
+    margin-bottom: -500px;
+}
+/***CENTER DIVS AND BLOCKS***/
+.center{
+    float: none !important;
+    margin: 0 auto;
+}
+.vcenter{
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+.vcenter-flex {
+    display: flex;
+    align-items: center;
+}
+.full-height{
+    height: 100%;
+}
+.v-center-img{
+    display: inline;
+}
+.center-v{
+    top: 50%;
+    position: absolute;
+    transform: translate(0, -50%);
+}
+/***WHITE-BLOCK***/
+.white-block{
+    min-height: 250px;
+    background-color: #fff;
+}
+@media screen and (max-width: 767px){
+    .white-block{
+        min-height: 150px;
+    }
+}
+.logo-section{
+    font-size: 50px;
+    font-weight: 100;
+    letter-spacing: 10px;
+}
+/***GREEN-BLOCK***/
 
-/* 400 and up */
-@media screen and (min-width:400px) {
-
-					{ /* Place your styles here for all widths greater than 400px */ }
-
+/*
+=============FEATURES=============
+*/
+.feature{
+    height: 350px;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+.feature-btn{
+    background-image: url("img/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 450px;
+    border-radius: 20px;
+}
+@media screen and (max-width: 767px){
+    .feature-btn{
+       height: 350px;
+    }
+}
+.feature-btn a{
+    color: #fff;
+    height: inherit;
+    padding-top: 9%;
+}
+.feature-btn a:hover{
+    border-color: #fff !important;
+}
+.feature-btn a:first-child{
+    border-right: 4px solid; 
+}
+.feature-btn a:last-child{
+    border-left: 4px solid;
 }
 
-/* Retina Display */
-@media screen and (-webkit-min-device-pixel-ratio:2) {
+/*
+=============IMAGES=============
+*/
+/***IMAGE WIDTH 300PX***/
+.img-100{
+    max-width: 100px;
+    position: relative;
+}
+.img-200{
+    max-width: 200px;
+    position: relative;
+}
+.img-300{
+    width: 300px;
+    position: relative;
+}
 
-					{ /* Place your styles here for all 'Retina' screens */ }
+/*
+=============CUSTOM COLORS=============
+*/
+button.text-green{
+    color: #21a88f;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+.text-white, .text-white p{
+    color: #fff;
+}
+.text-green, .text-green p, .text-green a p{
+    color: #24a88f;
+    text-decoration: none;
+}
+a.inverse, a.inverse:active, a.inverse:hover, a.inverse:focus,
+.menu-btn span, .menu-btn span:hover, .menu-btn span:focus{
+    border-color: #fff;   
+}
+a.inverse:hover, a.inverse:focus, 
+p.inverse:hover, p.inverse:focus,
+.navbar-toggle:hover span, .navbar-toggle:focus span,
+.menu-btn:hover span, .menu-btn:focus span{
+    background-color: #f8a678;
+}
 
+/*
+=========================================HEADER============================================
+*/
+/*LOGO*/
+#logo{
+    max-width: 90px;
+    /*margin-top: 10px;*/
+}
+/*MENU*/
+.navbar-toggle p{
+    margin-bottom: 2px;
+}
+span.nav-menu{
+    padding: 7px 4px;
+    border-width: 4px;
+}
+.navbar-collapse .nav > li { /*Better spacing between menu links*/
+    margin-bottom: 15px;
+    margin-top: 22px;
+}
+.navbar-wrapper {/*Pulldown container so you can get clear background*/
+    /*margin-bottom: -140px;*/
+}
+@media screen and (min-width: 768px){
+    ul.menu{
+        display: none;
+        margin-top: 15px;
+    }
+}
+@media screen and (max-width: 767px){
+    ul.menu-btn{
+        display: none !important;
+    }
+}
+.menu-btn button, .menu-btn button:active, .menu-btn button:focus{
+    background-color: transparent;
+    border: none;
+}
+ul.menu-btn{
+    /*margin-top: 20px;*/
+}
+.menu-btn p{
+    margin-bottom: 6px;
+}
+
+
+/*
+=========================================BODY============================================
+*/
+.main-bg{
+    background-size: cover;
+    position: relative;
+    padding-bottom: 20px;
+    height: 100%;
+}
+#landing{
+    background-image: url("img/bg.jpg");
+    min-height: 320px;
+    background-attachment: fixed;
+}
+#landing .container{
+    margin-top: 170px; /*This will be affected by jQuery class which will reset this all the time*/
+    color: #fff;
+}
+.overlay{
+    background-color: #000;
+    height: inherit;
+    width: 100%;
+    opacity: 0.6;
+    position: absolute;
+    border-radius: inherit;
+}
+.overlay70{
+    opacity: 0.6;
+}
+@media screen and (max-width: 991px){
+    #landing .btn-lg {font-size: 60px;}
+}
+@media screen and (max-width: 650px){
+    #landing .btn-lg {font-size: 40px;}
+}
+
+/*
+=========================================FOOTER============================================
+*/
+/***GENERAL FOOTER***/
+#footer .btn-group-justified{
+    border-spacing: 5px;
+}
+@media screen and (max-width: 991px) {
+    #footer .btn-sm{
+        font-size: 30px;
+        line-height: 1;
+    }
+}
+@media screen and (min-width: 768px) {
+    #scrollToTop{ display: none;}
+}
+#scrollToTop:hover{
+    color: #FFA878;
+}
+
+/***SOCIAL NETWORKS***/
+.socials li a p{
+    width: 80px; /* = 2 * border-width + 80px */
+    border-radius: 85px;
+    border: 5px solid;
+}
+.facebook{
+    background-color: #3b5b9d;
+}
+.twitter{
+    background-color: #20a9e1;
+}
+.instagram{
+    background-color: #517fa4;
+}
+.youtube{
+    background-color: #ee3538;
+}
+
+
+
+/****DYNAMICALLY ALLOCATED ****/
+#feature-1{
+    background-image: url("img/feat1.jpg");
+}
+#feature-2{
+    background-image: url("img/feat2.jpg");
+}
+#feature-3{
+    background-image: url("img/feat3.jpg");
+}
+#feature-4{
+    background-image: url("img/bg.jpg");
 }
