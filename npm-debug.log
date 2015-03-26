@@ -1,0 +1,128 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '-g', 'nvm' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 verbose cache add [ 'nvm', null ]
+5 verbose cache add name=undefined spec="nvm" args=["nvm",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'nvm',
+6 verbose parsed url   path: 'nvm',
+6 verbose parsed url   href: 'nvm' }
+7 silly lockFile ed8ccd57-nvm nvm
+8 verbose lock nvm /Users/KMonst/.npm/ed8ccd57-nvm.lock
+9 silly lockFile ed8ccd57-nvm nvm
+10 silly lockFile ed8ccd57-nvm nvm
+11 verbose addNamed [ 'nvm', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 994bb1db-nvm nvm@
+14 verbose lock nvm@ /Users/KMonst/.npm/994bb1db-nvm.lock
+15 silly addNameRange { name: 'nvm', range: '*', hasData: false }
+16 verbose request where is /nvm
+17 verbose request registry https://registry.npmjs.org/
+18 verbose request id b371ff8ab2ea9523
+19 verbose url raw /nvm
+20 verbose url resolving [ 'https://registry.npmjs.org/', './nvm' ]
+21 verbose url resolved https://registry.npmjs.org/nvm
+22 verbose request where is https://registry.npmjs.org/nvm
+23 info trying registry request attempt 1 at 17:42:15
+24 verbose etag "2D14S2BL1F093AVWF7EX5RK4H"
+25 http GET https://registry.npmjs.org/nvm
+26 http 304 https://registry.npmjs.org/nvm
+27 silly registry.get cb [ 304,
+27 silly registry.get   { date: 'Thu, 26 Feb 2015 22:26:42 GMT',
+27 silly registry.get     server: 'Apache',
+27 silly registry.get     via: '1.1 varnish',
+27 silly registry.get     'last-modified': 'Thu, 26 Feb 2015 22:26:42 GMT',
+27 silly registry.get     'cache-control': 'max-age=60',
+27 silly registry.get     etag: '"2D14S2BL1F093AVWF7EX5RK4H"',
+27 silly registry.get     age: '0',
+27 silly registry.get     'x-served-by': 'cache-jfk1025-JFK',
+27 silly registry.get     'x-cache': 'MISS',
+27 silly registry.get     'x-cache-hits': '0',
+27 silly registry.get     'x-timer': 'S1424989602.770048,VS0,VE86',
+27 silly registry.get     vary: 'Accept',
+27 silly registry.get     'content-length': '0',
+27 silly registry.get     'keep-alive': 'timeout=10, max=50',
+27 silly registry.get     connection: 'Keep-Alive' } ]
+28 verbose etag https://registry.npmjs.org/nvm from cache
+29 silly addNameRange number 2 { name: 'nvm', range: '*', hasData: true }
+30 silly addNameRange versions [ 'nvm', [ '0.0.0', '0.0.1', '0.0.2', '0.0.3' ] ]
+31 verbose addNamed [ 'nvm', '0.0.3' ]
+32 verbose addNamed [ '0.0.3', '0.0.3' ]
+33 silly lockFile dc94ebd7-nvm-0-0-3 nvm@0.0.3
+34 verbose lock nvm@0.0.3 /Users/KMonst/.npm/dc94ebd7-nvm-0-0-3.lock
+35 silly lockFile dc94ebd7-nvm-0-0-3 nvm@0.0.3
+36 silly lockFile dc94ebd7-nvm-0-0-3 nvm@0.0.3
+37 silly lockFile 994bb1db-nvm nvm@
+38 silly lockFile 994bb1db-nvm nvm@
+39 silly resolved [ { name: 'nvm',
+39 silly resolved     version: '0.0.3',
+39 silly resolved     description: 'Install and managing different versions of node and installing local versions into repos.',
+39 silly resolved     dependencies: { mkdirp: '~0.3.3' },
+39 silly resolved     devDependencies: {},
+39 silly resolved     bin: { nvm: './bin/nvm' },
+39 silly resolved     scripts: { test: 'echo "Error: no test specified" && exit 1' },
+39 silly resolved     repository: { type: 'git', url: 'git://github.com/brianloveswords/nvm.git' },
+39 silly resolved     keywords: [ 'local', 'node' ],
+39 silly resolved     author: { name: 'Brian J. Brennan', url: '@brianloveswords' },
+39 silly resolved     license: 'http://wtfpl.org/',
+39 silly resolved     bugs: { url: 'https://github.com/brianloveswords/nvm/issues' },
+39 silly resolved     homepage: 'https://github.com/brianloveswords/nvm',
+39 silly resolved     _id: 'nvm@0.0.3',
+39 silly resolved     dist:
+39 silly resolved      { shasum: '1f39d2dfd16bf661534a3f7145134f4bbbef6da4',
+39 silly resolved        tarball: 'http://registry.npmjs.org/nvm/-/nvm-0.0.3.tgz' },
+39 silly resolved     _from: 'nvm@',
+39 silly resolved     _npmVersion: '1.4.3',
+39 silly resolved     _npmUser: { name: 'brianloveswords', email: 'brianloveswords@gmail.com' },
+39 silly resolved     maintainers: [ [Object] ],
+39 silly resolved     directories: {},
+39 silly resolved     _shasum: '1f39d2dfd16bf661534a3f7145134f4bbbef6da4',
+39 silly resolved     _resolved: 'https://registry.npmjs.org/nvm/-/nvm-0.0.3.tgz',
+39 silly resolved     readme: 'ERROR: No README data found!' } ]
+40 info install nvm@0.0.3 into /usr/local/lib
+41 info installOne nvm@0.0.3
+42 verbose lib/node_modules/nvm unbuild
+43 verbose tar unpack /Users/KMonst/.npm/nvm/0.0.3/package.tgz
+44 silly lockFile a74a5548-r-usr-local-lib-node-modules-nvm tar:///usr/local/lib/node_modules/nvm
+45 verbose lock tar:///usr/local/lib/node_modules/nvm /Users/KMonst/.npm/a74a5548-r-usr-local-lib-node-modules-nvm.lock
+46 silly lockFile 6d9f4487-KMonst-npm-nvm-0-0-3-package-tgz tar:///Users/KMonst/.npm/nvm/0.0.3/package.tgz
+47 verbose lock tar:///Users/KMonst/.npm/nvm/0.0.3/package.tgz /Users/KMonst/.npm/6d9f4487-KMonst-npm-nvm-0-0-3-package-tgz.lock
+48 silly gunzTarPerm modes [ '755', '644' ]
+49 error Error: EACCES, mkdir '/usr/local/lib/node_modules/nvm'
+49 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/nvm']
+49 error   errno: 3,
+49 error   code: 'EACCES',
+49 error   path: '/usr/local/lib/node_modules/nvm',
+49 error   fstream_type: 'Directory',
+49 error   fstream_path: '/usr/local/lib/node_modules/nvm',
+49 error   fstream_class: 'DirWriter',
+49 error   fstream_stack:
+49 error    [ '/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+49 error      '/usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53',
+49 error      'Object.oncomplete (fs.js:107:15)' ] }
+50 error Please try running this command again as root/Administrator.
+51 error System Darwin 12.5.0
+52 error command "node" "/usr/local/bin/npm" "install" "-g" "nvm"
+53 error cwd /Applications/XAMPP/xamppfiles/htdocs/zintune
+54 error node -v v0.10.33
+55 error npm -v 1.4.28
+56 error path /usr/local/lib/node_modules/nvm
+57 error fstream_path /usr/local/lib/node_modules/nvm
+58 error fstream_type Directory
+59 error fstream_class DirWriter
+60 error code EACCES
+61 error errno 3
+62 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/nvm'
+63 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+63 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+63 error fstream_stack Object.oncomplete (fs.js:107:15)
+64 verbose exit [ 3, true ]
