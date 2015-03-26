@@ -6,12 +6,9 @@
  * For example, puts together date-based pages if no date.php file exists.
  *
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
- *
- * Please see /external/starkers-utilities.php for info on Starkers_Utilities::get_template_parts() 
+ * 
  *
  * @package 	WordPress
- * @subpackage 	Starkers
- * @since 		Starkers 4.0
  */
 ?>
 <?php get_header(); ?>
