@@ -5,8 +5,7 @@
 	 * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
 	 *
  	 * @package 	WordPress
- 	 * @subpackage 	Starkers
- 	 * @since 		Starkers 4.0
+ 	 * 
 	 */
 
 	/* ========================================================================================================================
@@ -25,13 +24,13 @@
 	
 	======================================================================================================================== */
 
-	add_theme_support('post-thumbnails');
-	
-	// register_nav_menus(array('primary' => 'Primary Navigation'));
+add_theme_support('post-thumbnails');
+
 
 	/* ========================================================================================================================
 	Actions and Filters	======================================================================================================================== */
 add_filter('show_admin_bar', '__return_false');
+//Removes annoying <p> and <br> that Wordpress generates
 remove_filter( 'the_content', 'wpautop' );
 remove_filter( 'the_excerpt', 'wpautop' );
 
@@ -39,7 +38,19 @@ add_action('wp_enqueue_scripts', 'theme_scripts');
 add_action( 'wp_enqueue_scripts', 'bootstrap' );
 add_action( 'wp_enqueue_scripts', 'main_scripts' );
 
+/*
+=============APPEARANCE OPTIONS============
+*/
 
+add_action( 'init', 'register_my_menus' );
+//add_action( 'init', 'prjkts');
+add_action( 'init', 'register_prjkts_taxonomies');
+//add_action( 'init', 'register_artsns_taxonomies');
+
+/*
+=============ADMIN-MENU OPTIONS============
+*/
+add_action( 'admin_menu', 'all_theme_menu' );
 
 	//add_action( 'wp_enqueue_scripts', 'starkers_script_enqueuer' );
 
@@ -114,6 +125,30 @@ function theme_jquery_local_fallback($src, $handle) {
     // For either a plugin or a theme, you can then enqueue the script:
     wp_enqueue_script( 'main_script' );
 }
+
+//Registers menus into WP
+function register_my_menus() {
+  register_nav_menus(
+    array(
+      'header-menu' => __( 'Header Menu' ),
+      'footer-menu' => __( 'Footer Menu' )
+    )
+  );
+}
+
+
+
+//Additional Theme Slugs
+$prjkts_slug = 'prjktsdashboard';
+$theme_options_slug = 'themeoptions';
+$shortcodes_slug = 'shortcodes';
+get_template_part( $prjkts_slug );
+//get_template_part( $theme_options_slug );
+//get_template_part( $shortcodes_slug);
+
+
+
+
 
 
 /* ========================================================================================================================
