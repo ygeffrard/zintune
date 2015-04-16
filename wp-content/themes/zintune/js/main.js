@@ -41,6 +41,7 @@ function readyFn( jQuery ) {
     
         //Reset landing container initially
         $("#landing .container").css("margin-top", "170px");
+        $("#alternate .container").css("margin-top", "120px");
         //Resets
         if($(window).width() < 768){
             $(".menu").removeAttr("style");  
@@ -56,6 +57,7 @@ $( document ).ready(function() {
         //Fix for navbar toggling pulling contents all the way down and body bg showing
         $( ".navbar-toggle" ).click(function() {
             $("#landing .container").css("margin-top", "530px");
+            $("#alternate .container").css("margin-top", "480px");
             if ( ($(".navbar-collapse")).is(":hidden")){
                 $(".navbar-wrapper").addClass("pullupback").removeClass("pullupcontainer");
             } else{
