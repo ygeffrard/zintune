@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Starkers functions and definitions
+	 * 
 	 *
 	 * For more information on hooks, actions, and filters, see http://codex.wordpress.org/Plugin_API.
 	 *
@@ -30,6 +30,9 @@ add_theme_support('post-thumbnails');
 	/* ========================================================================================================================
 	Actions and Filters	======================================================================================================================== */
 add_filter('show_admin_bar', '__return_false');
+//Links all post thumbnails to post link
+//add_filter( 'post_thumbnail_html', 'my_post_image_html', 10, 3 );
+
 //Removes annoying <p> and <br> that Wordpress generates
 remove_filter( 'the_content', 'wpautop' );
 remove_filter( 'the_excerpt', 'wpautop' );
@@ -46,7 +49,7 @@ add_action( 'init', 'register_my_menus' );
 //add_action( 'init', 'prjkts');
 add_action( 'init', 'register_prjkts_taxonomies');
 //add_action( 'init', 'register_artsns_taxonomies');
-
+add_action( 'init', 'all_metaboxes' );
 /*
 =============ADMIN-MENU OPTIONS============
 */
@@ -63,6 +66,16 @@ add_action( 'admin_menu', 'all_theme_menu' );
 	e.g. require_once( 'custom-post-types/your-custom-post-type.php' );
 	
 	======================================================================================================================== */
+//add_action( 'init', 'all_metaboxes' );
+
+
+
+/* ========================================================================================================================
+	
+	Shortcodes
+	
+	======================================================================================================================== */
+
 
 
 
@@ -71,6 +84,12 @@ add_action( 'admin_menu', 'all_theme_menu' );
 	Scripts
 	
 	======================================================================================================================== */
+
+
+function my_post_image_html( $html, $post_id, $post_image_id ) {
+	$html = '<a href="' . get_permalink( $post_id ) . '" title="' . esc_attr( get_the_title( $post_id ) ) . '">' . $html . '</a>';
+	return $html;
+}
 
 	/**
 	 * Add scripts via wp_head()
@@ -112,7 +131,7 @@ function theme_jquery_local_fallback($src, $handle) {
 /**Loads Bootstrap locally**/
     function bootstrap() {
         wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css' );
-    wp_register_script( 'bootstrap-script', get_template_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ) );
+    wp_register_script( 'bootstrap-script', get_template_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ), null, true );
  
     // For either a plugin or a theme, you can then enqueue the script:
     wp_enqueue_script( 'bootstrap-script' );
@@ -120,7 +139,7 @@ function theme_jquery_local_fallback($src, $handle) {
 
 /**Added Scripts Goes Here in this format**/
     function main_scripts() {
-    wp_register_script( 'main_script', get_template_directory_uri() . '/js/main.js', false, null, false);
+    wp_register_script( 'main_script', get_template_directory_uri() . '/js/main.js', false, null, true);
         
     // For either a plugin or a theme, you can then enqueue the script:
     wp_enqueue_script( 'main_script' );
@@ -137,15 +156,9 @@ function register_my_menus() {
 }
 
 
-
-//Additional Theme Slugs
+//Add Projects Dashboard
 $prjkts_slug = 'prjktsdashboard';
-$theme_options_slug = 'themeoptions';
-$shortcodes_slug = 'shortcodes';
 get_template_part( $prjkts_slug );
-//get_template_part( $theme_options_slug );
-//get_template_part( $shortcodes_slug);
-
 
 
 

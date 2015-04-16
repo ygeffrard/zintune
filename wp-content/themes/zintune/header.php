@@ -37,7 +37,7 @@
                         <p class="h4">MENU</p>
                         <span class="nav-menu icon-params inverse"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="<?php echo home_url()?>">
                         <img id="logo" src="<?php echo get_template_directory_uri(); ?>/img/logo.png">
                     </a>
                   </div>
@@ -50,13 +50,15 @@
                       <span class="icon-params"></span>-->
                     </button>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right menu text-center">
+                      <?php wp_nav_menu( array('theme_location' => 'header-menu',
+      'items_wrap' => '<ul class="nav navbar-nav navbar-right menu text-center text-capitalize">%3$s</ul>'));?>
+                    <!--<ul class="nav navbar-nav navbar-right menu text-center">
                       <li class="active"><a href="#">Home</a></li>
                       <li><a href="#about">Prjkts</a></li>
                       <li><a href="#about">Artsns</a></li>
                       <li><a href="#about">About</a></li>
                       <li><a href="#contact">Contact</a></li>
-                    </ul>
+                    </ul>-->
                     
                   </div><!--/.nav-collapse -->
                 </div>

@@ -10,10 +10,17 @@
                       </ul>
                   </div>
                   <div class="col-md-offset-4 col-md-4 ">
-                      <ul class="list-inline btn-group btn-group-justified text-right">
+                      <?php 
+$zt_footer_menu = new cust_nav_walker;
+wp_nav_menu( array('theme_location' => 'footer-menu',
+      'items_wrap' => '<ul class="list-inline btn-group btn-group-justified text-right">
+      %3$s</ul>', 
+     'walker' => $zt_footer_menu))?>
+                      
+                      <!--<ul class="list-inline btn-group btn-group-justified text-right">
                           <li class="btn-group"><a href="#" class="btn btn-default btn-sm inverse">email</a></li>
                           <li class="btn-group"><a href="#" class="btn btn-default btn-sm inverse">reachout</a></li>
-                      </ul>
+                      </ul>-->
                   </div>
               </div>
               <div class="row clearfix"><p class="text-center">&copy; <?php echo date("Y"); ?> <?php bloginfo( 'name' ); ?>. All rights reserved.</p></div>

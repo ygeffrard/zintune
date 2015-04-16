@@ -16,7 +16,7 @@ $prjkts_args = array(
         ),
         'query_var' => 'allprjkts',
         'rewrite' => array(
-            'slug' => 'allprjkts'
+            'slug' => 'prjkt'
         ),
         'public' => true,
         'menu_position' => 61.1,
@@ -45,7 +45,7 @@ $artsns_args = array(
     ),
     'query_var' => 'allartsns',
     'rewrite' => array(
-        'slug' => 'allartsns',
+        'slug' => 'artsn',
     ),
     'public' => true,
     'menu_position' => 61.2,
@@ -65,8 +65,6 @@ register_post_type( $artsns_post_type, $artsns_args );
 function prjkts() {
     
 }
-
-
 
 /*
 ================PRJKTS=================
@@ -355,21 +353,443 @@ function theme_options(){
 }
 
 
-//SHORTCODE
+//***********SHORTCODE******************
 function shortcodes_manual() {
     if ( !current_user_can( 'manage_options' ) )  {
         wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
     }
 
     echo '<div>';
-            echo '<h1 class="lead-title">Welcome To ZinTune List of Shortcodes and other Manual Instructions</h1>';
-            echo '</div>&nbsp; &nbsp; ';
-            echo '<div class="lead"> To Add a whiteblock just type [whiteblock height="250" img="http://url"], note that the image is optional, like the logo image was added in the whiteblock, if so just makesure the height that you set in the whiteblock is greater than the image height</div>&nbsp';
+            echo '<h1 class="lead-title">Welcome To ZinTune <br> List of Shortcodes and other Manual Instructions</h1>';
+            echo '</div> <br> ';
+            echo '<div class="lead"> <h3>[whiteblock min_height="250" img_url="http://img.png" text="WriteHere"]</h3> To Add a whiteblock just type the above, note that the img_url and min_height are optional, <br> just makesure the min_height that you set in the whiteblock is greater than the img_url height</div> <br><br>';
         
-            echo '<div class="lead"> To Add a darkened  image block just type [darkblock height="350" img="http://url"], note that the image is a must for this part to look nice;</div>&nbsp';  
-            echo '<div class="lead"> To Add a Email block  just type [email msg="GET ALL THE LATEST PRJKTS!"], note that the height is set alongside with all the other information</div>&nbsp';  
+            echo '<div class="lead"> <h3>[feature img_url="http://url" text="WriteHere"]</h3> To Add a darkened image block just type , note that the image is a must for this part to look nice;</div> <br><br>';  
+    
+    echo '<div class="lead"> <h3>[featurebtn img_url="http://url" text="WriteHere" l_menu_txt="Left" l_menu_link="pagename" l_menu_description="About Left" r_menu_txt="Right"  r_menu_description="About Right" r_menu_link="pagename"]</h3> To Add a darkened image block just type , note that the image is a must for this part to look nice;</div> <br><br>';  
+            
+            echo '<div class="lead"> <h3>[email text="GET ALL THE LATEST PRJKTS!"]</h3> To Add an Email block just type the text you want displayed at the top</div> <br>';  
 
 }
 
+function addwhiteblock($atts, $content = null){
+    $wb = shortcode_atts( array(
+        'min_height' => '250',
+        'img_url' => null,
+        'text' => null
+    ), $atts );
+    $wb_min_height = $wb['min_height'];
+    $wb_responsive_min_height = 0.6 * $wb_min_height;
+    $wb_img_url = $wb['img_url'];
+    //echo $wb_min_height, "\n", $wb_responsive_min_height, "\n", $wb_img_url, "\n";
+    
+$wb_out = '<div class="white-block';
+        if($wb_min_height != 250){ $wb_out.= '" style="min-height: '.$wb_min_height.'px ';
+        }
+        $wb_out .= '">';
+        
+        if ($wb_img_url != null){
+            $wb_out.='<div>
+                <a href="#">
+                    <img class="img-200" src="'.$wb_img_url.'" />
+                    <p class="logo-section">ZINTUNE</p>
+                </a>
+            </div>';
+        }
+        $wb_out .= '</div>';
+    return $wb_out;
+}
+add_shortcode( 'whiteblock', 'addwhiteblock' );
 
+function addfeature($atts, $content = null){
+    $feat = shortcode_atts( array(
+        'img_url' => null,
+        'text' => null
+    ), $atts );
+    $feat_url = $feat['img_url'];
+    if(strpos($feat_url , 'wp-content') !== false
+){ strstr($feat_url, 'wp-content');}
+    $feat_text = $feat['text'];
+    //echo $feat_url,"\n";
+    $feat_out = '
+        <div class="feature text-white"  style="background-image: url('.$feat_url.');">
+                <div class="overlay overlay60"></div>
+                <div class="container full-height">
+                    <p class="col-md-8 lead-title center center-v">'.$feat_text.'</p>
+                </div>
+            </div>';
+    return $feat_out;
+}
+add_shortcode( 'feature', 'addfeature' );
+
+
+//Adds the feature buttons that you see on the home screen
+function addfeaturebtn($atts, $content = null){
+    $featbtn = shortcode_atts( array(
+        'img_url' => null,
+        'l_menu_txt' => null,
+        'l_menu_description' => null,
+        'l_menu_page' => '#',
+        'r_menu_txt' => null,
+        'r_menu_description' => null,
+        'r_menu_page' => '#'
+    ), $atts );
+    //Gets the url to the background image
+    $featbtn_url = $featbtn['img_url'];
+    //Strips the long "http://.. to wp-content for faster load
+    if(strpos($featbtn_url, 'wp-content') !== false
+){ strstr( $featbtn_url, 'wp-content');}
+    
+    //The text of the buttons to be displayed
+    $featbtn_left =$featbtn['l_menu_txt'];
+    $featbtn_right =$featbtn['r_menu_txt'];
+    
+    //The text of the descriptions that is displayed beneath the buttons
+    $featbtn_left_desc =$featbtn['l_menu_description'];
+    $featbtn_right_desc =$featbtn['r_menu_description'];
+    
+    //Get IDs of the pages so function can work 
+    $featbtn_left_id = get_page_by_title($featbtn['l_menu_page'])->ID;
+    $featbtn_right_id = get_page_by_title($featbtn['r_menu_page'])->ID;
+
+    //Converts the ids to the actual http links for the pages
+    $featbtn_left_link = get_page_link($featbtn_left_id);
+    $featbtn_right_link = get_page_link($featbtn_right_id);
+    
+    //echo $feat_url,"\n";
+    
+    $featbtn_out = '
+        <div class="feature-btn" style="background-image: url('.$featbtn_url.');">
+                <div class="overlay"></div>
+                <div class="container-fluid full-height"> 
+                    <a href="'.$featbtn_left_link.'" class="col-xs-6">
+                        <p class="btn-lg">'.$featbtn_left.'</p>
+                        <p class="lead">'.$featbtn_left_desc.'</p>
+                    </a>
+                    <a href="'.$featbtn_right_link.'" class="col-xs-6">
+                        <p class="btn-lg">'.$featbtn_right.'</p>
+                        <p class="lead">'.$featbtn_right_desc.'</p>
+                    </a>
+                </div>
+            </div>
+        </div>';
+    return $featbtn_out;
+}
+add_shortcode( 'featurebtn', 'addfeaturebtn' );
+
+function addemailsignup($atts, $content = null){
+    $e_signup = shortcode_atts( array(
+        'text' => null,
+    ), $atts );
+    $e_signup_text = $e_signup['text'];
+    $e_signup_out = 
+        '<div class="container addvbottom40 addvtop60">
+            <div class="row clearfix text-center"><p class="h2 addvbottom20 text-uppercase">'.$e_signup_text.'</p></div>
+            <div class="row clearfix">
+                <form role="form" >
+                    <div class="col-md-8 form-group">
+                        <input type="text" class="form-control text-center" placeholder="EMAIL">
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <button type="submit" class="form-control btn btn-default btn-block text-green text-uppercase border-left-radius">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>';
+    return $e_signup_out;
+}
+add_shortcode( 'emailsignup', 'addemailsignup' );
+
+
+function displayall($atts, $content =null){
+    $to_display = shortcode_atts( array(
+        'bg_img_url' => null,
+        'type' => null
+    ), $atts );
+    
+    $to_display_type = $to_display['type'];
+    
+    if( ($to_display_type === 'allartsns') || ($to_display_type === 'artsns') || ($to_display_type === 'artsn') ){
+        $to_display_type = 'allartsns';
+    }
+    else {
+        $to_display_type = 'allprjkts';
+    }
+    
+    $allprjkts = '';
+    $display_loop = new WP_Query(
+        array(
+            'post_type' => $to_display_type,
+            'orderby' => 'title'
+        )
+    );
+    
+    $display_loop_out = '
+    <style>
+        .prjkts-artsns-contents{
+            background-image: url("'.$to_display['bg_img_url'].'");
+        }
+    </style>
+
+<div class="container-fluid clearfix text-center prjkts-artsns-contents addvbottom40">
+            <div class="row clearfix overlay"></div>
+            <div class="row clearfix text-white">';
+        if ($display_loop->have_posts() ){
+            
+            while ($display_loop->have_posts() ){
+                $display_loop->the_post();
+                $meta = get_post_meta(get_the_id(), '');
+                
+            $display_loop_out .= '
+            <a href="'.get_permalink().'" class="col-md-4 col-sm-6 prjkt-artsn-display">
+                <div class="prjkt-artsn-photo center"'; 
+            if (has_post_thumbnail( $post->ID ) ): 
+                $display_image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
+                
+                 $display_loop_out .= 'style="background-image: url('.$display_image[0].')"';
+            endif; 
+                $display_loop_out .='>';
+                
+                $display_loop_out .= '
+                    </div>
+                    <div class="prjkt-artsn-name center">
+                    <div class="overlay"></div>
+                    <div class="overlay-text lead-title"><p class="center-v">'.get_the_title().'</p></div>
+                </div>
+            </a>';
+            }
+        }
+        
+        $display_loop_out .= '
+                </div>
+<div class="row clearfix text-center  addvtop60">
+            <a href="#" class="text-uppercase center col-xs-8 btn btn-default inverse load-more">Load More</a>      </div>
+        </div>
+        ';
+    return $display_loop_out;
+}
+add_shortcode( 'showall', 'displayall' );       
+
+
+function all_metaboxes(){
+    add_action('add_meta_boxes', function (){
+        //css id, title, callback function, posttype, priority, callback functions args
+        add_meta_box('header-img', 'Header Image URL', 'add_header_img', 'page');
+        add_meta_box('header-text', 'Header Text', 'add_header_text', 'page');
+    });
+
+    function add_header_img($post){
+        $header_image_value = get_post_meta($post->ID, 'header_img', true);
+        $header_img_out = '
+        <p>
+            <label for="add_header_img" >URL For Header Image</label>
+<input type="text" class="widefat" name="header_img" id="header_img" placeholder="http://url.jpg" value="'. esc_attr__($header_image_value).'"/>
+</p>';
+        echo $header_img_out;
+    }
+    function add_header_text($post){
+        $header_text_value = get_post_meta($post->ID, 'header_text', true);
+        $header_text_out = '
+        <p>
+            <label for="add_header_img" >Text Within Header Image</label>
+<input type="text" class="widefat" name="header_text" id="header_text" placeholder="Type Text Here" value="'. esc_attr__($header_text_value).'"/>
+</p>';
+        echo $header_text_out;
+    }
+    
+    add_action('save_post', function($id){
+        if(isset($_POST['header_img'])){
+            update_post_meta(
+                $id,
+                'header_img',
+                strip_tags($_POST['header_img'])
+            );
+        }
+        if(isset($_POST['header_text'])){
+            update_post_meta(
+                $id,
+                'header_text',
+                strip_tags($_POST['header_text'])
+            );
+        }
+    });
+}
+?>
+<?php  class cust_nav_walker extends Walker {
+        /**
+         * What the class handles.
+         *
+         * @see Walker::$tree_type
+         * @since 3.0.0
+         * @var string
+         */
+        public $tree_type = array( 'post_type', 'taxonomy', 'custom' );
+
+        /**
+         * Database fields to use.
+         *
+         * @see Walker::$db_fields
+         * @since 3.0.0
+         * @todo Decouple this.
+         * @var array
+         */
+        public $db_fields = array( 'parent' => 'menu_item_parent', 'id' => 'db_id' );
+
+        /**
+         * Starts the list before the elements are added.
+         *
+         * @see Walker::start_lvl()
+         *
+         * @since 3.0.0
+         *
+         * @param string $output Passed by reference. Used to append additional content.
+         * @param int    $depth  Depth of menu item. Used for padding.
+         * @param array  $args   An array of arguments. @see wp_nav_menu()
+         */
+        public function start_lvl( &$output, $depth = 0, $args = array() ) {
+            $indent = str_repeat("\t", $depth);
+            $output .= "\n$indent<ul class=\"sub-menu\">\n";
+        }
+
+        /**
+         * Ends the list of after the elements are added.
+         *
+         * @see Walker::end_lvl()
+         *
+         * @since 3.0.0
+         *
+         * @param string $output Passed by reference. Used to append additional content.
+         * @param int    $depth  Depth of menu item. Used for padding.
+         * @param array  $args   An array of arguments. @see wp_nav_menu()
+         */
+        public function end_lvl( &$output, $depth = 0, $args = array() ) {
+            $indent = str_repeat("\t", $depth);
+            $output .= "$indent</ul>\n";
+        }
+
+        /**
+         * Start the element output.
+         *
+         * @see Walker::start_el()
+         *
+         * @since 3.0.0
+         *
+         * @param string $output Passed by reference. Used to append additional content.
+         * @param object $item   Menu item data object.
+         * @param int    $depth  Depth of menu item. Used for padding.
+         * @param array  $args   An array of arguments. @see wp_nav_menu()
+         * @param int    $id     Current item ID.
+         */
+        public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+            $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+
+            $classes = empty( $item->classes ) ? array() : (array) $item->classes;
+            $classes[] = 'menu-item-' . $item->ID.' btn-group';
+            //Additional li class goes here
+            
+            /**
+             * Filter the CSS class(es) applied to a menu item's list item element.
+             *
+             * @since 3.0.0
+             * @since 4.1.0 The `$depth` parameter was added.
+             *
+             * @param array  $classes The CSS classes that are applied to the menu item's `<li>` element.
+             * @param object $item    The current menu item.
+             * @param array  $args    An array of {@see wp_nav_menu()} arguments.
+             * @param int    $depth   Depth of menu item. Used for padding.
+             */
+            $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
+            $class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+
+            /**
+             * Filter the ID applied to a menu item's list item element.
+             *
+             * @since 3.0.1
+             * @since 4.1.0 The `$depth` parameter was added.
+             *
+             * @param string $menu_id The ID that is applied to the menu item's `<li>` element.
+             * @param object $item    The current menu item.
+             * @param array  $args    An array of {@see wp_nav_menu()} arguments.
+             * @param int    $depth   Depth of menu item. Used for padding.
+             */
+            $id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args, $depth );
+            $id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
+
+            $output .= $indent . '<li' . $id . $class_names .'>';
+
+            $atts = array();
+            $atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
+            $atts['target'] = ! empty( $item->target )     ? $item->target     : '';
+            $atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
+            $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
+
+            /**
+             * Filter the HTML attributes applied to a menu item's anchor element.
+             *
+             * @since 3.6.0
+             * @since 4.1.0 The `$depth` parameter was added.
+             *
+             * @param array $atts {
+             *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
+             *
+             *     @type string $title  Title attribute.
+             *     @type string $target Target attribute.
+             *     @type string $rel    The rel attribute.
+             *     @type string $href   The href attribute.
+             * }
+             * @param object $item  The current menu item.
+             * @param array  $args  An array of {@see wp_nav_menu()} arguments.
+             * @param int    $depth Depth of menu item. Used for padding.
+             */
+            $atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
+
+            $attributes = '';
+            foreach ( $atts as $attr => $value ) {
+                if ( ! empty( $value ) ) {
+                    $value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+                    $attributes .= ' ' . $attr . '="' . $value . '"';
+                }
+            }
+
+            $item_output = $args->before;
+            $item_output .= '<a class="btn btn-default btn-sm inverse"'. $attributes .'>';
+            //Additional li a class goes here
+            /** This filter is documented in wp-includes/post-template.php */
+            $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+            $item_output .= '</a>';
+            $item_output .= $args->after;
+
+            /**
+             * Filter a menu item's starting output.
+             *
+             * The menu item's starting output only includes `$args->before`, the opening `<a>`,
+             * the menu item's title, the closing `</a>`, and `$args->after`. Currently, there is
+             * no filter for modifying the opening and closing `<li>` for a menu item.
+             *
+             * @since 3.0.0
+             *
+             * @param string $item_output The menu item's starting HTML output.
+             * @param object $item        Menu item data object.
+             * @param int    $depth       Depth of menu item. Used for padding.
+             * @param array  $args        An array of {@see wp_nav_menu()} arguments.
+             */
+            $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+        }
+
+        /**
+         * Ends the element output, if needed.
+         *
+         * @see Walker::end_el()
+         *
+         * @since 3.0.0
+         *
+         * @param string $output Passed by reference. Used to append additional content.
+         * @param object $item   Page data object. Not used.
+         * @param int    $depth  Depth of page. Not Used.
+         * @param array  $args   An array of arguments. @see wp_nav_menu()
+         */
+        public function end_el( &$output, $item, $depth = 0, $args = array() ) {
+            $output .= "</li>\n";
+        }
+    } // Walker_Nav_Menu
 ?>
