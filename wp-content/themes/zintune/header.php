@@ -38,8 +38,14 @@
                         <span class="nav-menu icon-params inverse"></span>
                     </button>
                     <a class="navbar-brand" href="<?php echo home_url()?>">
-                        <img id="logo" src="<?php echo get_template_directory_uri(); ?>/img/logo.png">
-                    </a>
+                        <img id="logo" src="                         <?php
+    $logo_header_link = esc_attr( get_option('logo_header_img') );
+    if (isset($logo_header_link) && !empty($logo_header_link)) : 
+        echo $logo_header_link;
+else : 
+    echo get_template_directory_uri(); ?>/img/logo.png
+                        <?php endif;?>
+                    "></a>
                   </div>
                   <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right menu-btn text-center">

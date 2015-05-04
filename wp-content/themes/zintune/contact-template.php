@@ -5,8 +5,13 @@
  */
  ?>
 
-<?php get_header(); ?>
 
+<?php get_header(); ?>
+<style>
+    .page-template-contact-template .company p{
+        margin-bottom:0px;
+    }
+</style>
 <?php 
     if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 <div id="landing" class="main-bg clearfix"
@@ -24,7 +29,7 @@
      >
             <div class="overlay"></div>
             <div class="container text-center">
-                <div class="row clearfix"><p class="col-md-8 lead-title center"><?php echo get_post_meta($post->ID, 'header_text', true); ?></p></div>
+                <div class="row clearfix"><p class="col-md-8 page-title center"><?php echo get_post_meta($post->ID, 'header_text', true); ?></p></div>
                 
             </div>  
         </div>
