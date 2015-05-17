@@ -59,7 +59,7 @@
     <span class="sr-only">Previous</span>
 						<div class="content-preview">
 							<h3 class="lead text-uppercase">Previous</h3>
-                            <div class="iframe-containter"><iframe scrolling="no" frameborder="0"></iframe></div>
+                            <div class="iframe-container"><!--<iframe scrolling="no" frameborder="0"></iframe>--></div>
                             
 						</div>
 					</a></div>
@@ -69,7 +69,7 @@
       <span class="sr-only">Next</span>
 						<div class="content-preview">
 							<h3 class="lead text-uppercase">Next</h3>
-							<div class="iframe-containter"><iframe scrolling="no" frameborder="0"></iframe></div>
+							<div class="iframe-container"><!--<iframe scrolling="no" frameborder="0"></iframe>--></div>
 						</div>
 					</a></div>
                         

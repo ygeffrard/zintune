@@ -88,7 +88,7 @@ function readyFn( jQuery ) {
     /*
 ====================CONTACT FORM===================
 */    
-    var wpc_textarea = $('.wpcf7-form textarea.form-control');
+    /*var wpc_textarea = $('.wpcf7-form textarea.form-control');
     var default_wpc_textarea_placeholder = 'We\'d Love to hear any questions or feedback? Interested in submitting a project? Interested in helping develop ZinTune more? Or Anything You have in mind?';
     
     if($(window).width() < 520){
@@ -97,7 +97,7 @@ function readyFn( jQuery ) {
     }
     if($(window).width() > 520){
         wpc_textarea.attr('placeholder', default_wpc_textarea_placeholder);
-    }
+    }*/
 }
 
 //Click functions don't need to be initiated if window is resized, or else flickering will occur
@@ -216,6 +216,17 @@ $( document ).ready(function() {
     });*/
     
     
+$("#prjktCarousel a.prev").swipe({
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+        console.log("swipping before");
+            
+          alert("You swiped " + direction + " with " + fingerCount + " fingers");
+        },
+        threshold:0,
+        fingers:'all'
+});
+    
+    
     //Bug fix for not triggering slide on click because of css transition effects
     $("#prjktCarousel a.next").mousedown( function (){
         $(this).trigger("click");
@@ -283,8 +294,7 @@ $( document ).ready(function() {
         
         
         //On Success of gets Individual artist play part and display additional button options
-        function onSuccessAJAXPlay(passed_data) {
-              
+        function onSuccessAJAXPlay(passed_data) {    
             /*
             The introduction text that's display sould be to the specific artist or if it's on the original project it would revert back to a default text which is the 'single_prjkt_header_text'  
             */
@@ -338,15 +348,15 @@ selected_div.hide().html(passed_data).fadeIn('slow');
             selected_div.addClass('prjkt-play').removeClass('artsn-menu');;
             selected_p.addClass('prjkt-play').removeClass('artsn-menu');
             
-            //Get iFrame Src URLs for previews
-            var iframe_preview_left = $('.l-control .content-preview iframe');
-            var iframe_preview_right = $('.r-control .content-preview iframe');
+            //Get iframe div container for previews
+            var iframe_preview_left = $('.l-control .content-preview .iframe-container');
+            var iframe_preview_right = $('.r-control .content-preview .iframe-container');
             /***********Dynamically load slides and contents**************/
             //Iterates through all the contents and description in the selected artsn content
             //Sets the content for the first div since it's an actual content passed from php
             $('div.carousel-inner').append( "<div class=\"item active\"><div class=\"slider-img-container center item1\"><div class=\"center-v\"><div class=\"embed-responsive embed-responsive-16by9\">"+curr_selected_artsns_content[0][0]+"      </div></div></div><div class=\"carousel-caption\"><h3 class=\"lead-title\">"+curr_selected_artsns_content_description[0]+"</h3></div></div>");
-            iframe_preview_left.attr( "src", curr_selected_artsns_content[curr_selected_artsns_content.length - 1][1]);
-            iframe_preview_right.attr( "src", curr_selected_artsns_content[1][1]);
+            iframe_preview_left.html( curr_selected_artsns_content[curr_selected_artsns_content.length - 1][1]);
+            iframe_preview_right.html( curr_selected_artsns_content[1][1]);
             
             for (var i = 1; i < curr_selected_artsns_content.length; i++) { 
                 //First item will already be set active we just have to continually add additionals, 
@@ -363,11 +373,7 @@ selected_div.hide().html(passed_data).fadeIn('slow');
             marginLeft: "10px"
         }, "slow", "swing");*/
         
-        $('.back-to-artsn')
-        .css("visibility","visible")
-        .animate({
-            opacity: 1,
-        }, "slow", "swing");
+        
         
             
             $('.carousel-indicators li').click(function() {
@@ -395,8 +401,33 @@ selected_div.hide().html(passed_data).fadeIn('slow');
             success:function(data){
                 //alert(data);
                 //On Success of gets Individual artist play part       
+                $('.back-to-artsn')
+                .css("visibility","visible")
+                .animate({
+                    opacity: 1,
+                }, "slow", "swing");
                 
                 onSuccessAJAXPlay(data);
+                /*
+==================MOBILE SWIPES FUNQs=====================
+*/   
+//Generic swipe handler for all directions
+//Enable swiping...
+//Only for small screens and if carousel is loaded
+                if( ( $(window).width() < 500 )&& ($("#prjktCarousel").length > 0) ){
+					$(".prjkt-content").swipe( {
+						//Generic swipe handler for all directions
+						swipeLeft:function(event, direction, distance, duration, fingerCount) {
+							$(this).parent().carousel('prev'); 
+						},
+						swipeRight: function() {
+							$(this).parent().carousel('next'); 
+						},
+						//Default is 75px, set to 0 for demo so any distance triggers swipe
+						threshold:70
+					});
+            }
+               
                 
             }
         });
@@ -422,8 +453,8 @@ selected_div.hide().html(passed_data).fadeIn('slow');
 
             current_slider_frame_position = $( '.active' ).index('.carousel-indicators li') - 1; 
             //console.log(current_slider_frame_position);
-            iframe_preview_left = $('.l-control .content-preview iframe');
-            iframe_preview_right = $('.r-control .content-preview iframe');
+            iframe_preview_left = $('.l-control .content-preview .iframe-container');
+            iframe_preview_right = $('.r-control .content-preview .iframe-container');
 
             previous_preview_index = current_slider_frame_position-1;
             /*if(previous_preview_index <= 1){
@@ -439,9 +470,9 @@ selected_div.hide().html(passed_data).fadeIn('slow');
                 previous_preview_index = size_of_slider-1;
             }
 
-            iframe_preview_left.attr( "src", curr_selected_artsns_content[previous_preview_index][1]);
+            iframe_preview_left.html(curr_selected_artsns_content[previous_preview_index][1]);
 
-            iframe_preview_right.attr( "src", curr_selected_artsns_content[next_preview_index][1]);
+            iframe_preview_right.html(curr_selected_artsns_content[next_preview_index][1]);
             /*iframe_preview_left.attr( "src", curr_selected_artsns_content[current_slider_frame_position-1][1]);
 
             iframe_preview_right.attr( "src", curr_selected_artsns_content[current_slider_frame_position+1][1]);*/
@@ -449,14 +480,15 @@ selected_div.hide().html(passed_data).fadeIn('slow');
 
     });
     
+    
     $('body').on('click','div.r-control', function(e) {
         e.preventDefault();
         size_of_slider =  $('.carousel-indicators  li').size();
         
         current_slider_frame_position = $( '.active' ).index('.carousel-indicators li') + 1; 
         
-        iframe_preview_left = $('.l-control .content-preview iframe');
-        iframe_preview_right = $('.r-control .content-preview iframe');
+        iframe_preview_left = $('.l-control .content-preview .iframe-container');
+        iframe_preview_right = $('.r-control .content-preview .iframe-container');
         
         previous_preview_index = current_slider_frame_position-1;
         //if(previous_preview_index <= 1){
@@ -468,9 +500,8 @@ selected_div.hide().html(passed_data).fadeIn('slow');
             next_preview_index = 1;
         }
         
-        iframe_preview_left.attr( "src", curr_selected_artsns_content[previous_preview_index][1]);
-        
-        iframe_preview_right.attr( "src", curr_selected_artsns_content[next_preview_index][1]);
+        iframe_preview_left.html(curr_selected_artsns_content[previous_preview_index][1]);
+              iframe_preview_right.html(curr_selected_artsns_content[next_preview_index][1]);
     });
 
     
@@ -524,18 +555,60 @@ selected_div.hide().html(passed_data).fadeIn('slow');
             success:function(data){
                 //alert(data);
                 //On Success of gets Individual artist play part       
-                
+                $('.back-to-artsn').css("visibility","hidden")
+                .animate({
+                    opacity: 0,
+                }, "slow", "swing");
                 onSuccessAJAXPlay(data);
                 
             }
         });
         return false;
         
-        $(this).css("visibility","hidden")
-        .animate({
-            opacity: 0,
-        }, "slow", "swing");
+        
     });
+    
+/*
+=====================THEATER MODE - FULLSCREEN===================
+*/
+//Makes window fullscreen and hides header and footer
+$('body').on('click', 'a.theater-mode-off', function(e){
+    e.preventDefault();
+    //console.log('Fullscreen');
+    $('#header, #alternate, #footer').fadeOut("slow");
+    $(this).attr("data-original-title", "Theater Mode Off?");
+    $(this).addClass('theater-mode-on').removeClass('theater-mode-off');
+    var elem = document.documentElement;
+    //Crossbrowser enter fullscreen
+    if (this.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (this.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+    } else if (this.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+    } else if (this.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+    }
+});   
+//Exits window fullscreen and shows header and footer
+$('body').on('click', 'a.theater-mode-on', function(e){
+    e.preventDefault();
+
+    //console.log('Originalscreen');
+    $('#header, #alternate, #footer').fadeIn("slow");
+    $(this).attr("data-original-title", "Theater Mode On?");
+    $(this).addClass('theater-mode-off').removeClass('theater-mode-on');
+    //Crossbrowser exit fullscreen
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
+});
     
     
 /*
@@ -566,8 +639,8 @@ var $mcj = jQuery.noConflict(true);*/
     if( $('body').hasClass('page-template-gridblog-template') ){
         var size_artns_or_prjkts_links = $("a.prjkt-artsn-display").size();
 
-        var max_projects_per_load = 1;
-        var increment_decrement_by = 1;
+        var max_projects_per_load = 2;
+        var increment_decrement_by = 2;
         var load_more_btn = $('a.load-more');
         $('a.prjkt-artsn-display:lt('+max_projects_per_load+')').show();
         
@@ -598,12 +671,7 @@ var $mcj = jQuery.noConflict(true);*/
                 }
             });
         }*/
-    }
-    
-/*
-====================CONTACT FORM===================
-*/    
-    
+    }    
 });
 
 
@@ -764,5 +832,3 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
         return this;
     };
 })(jQuery);
-
-
