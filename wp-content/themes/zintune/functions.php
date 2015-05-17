@@ -233,17 +233,6 @@ class Social_Widget extends WP_Widget {
 	e.g. require_once( 'custom-post-types/your-custom-post-type.php' );
 	
 	======================================================================================================================== */
-//add_action( 'init', 'all_metaboxes' );
-
-
-
-/* ========================================================================================================================
-	
-	Shortcodes
-	
-	======================================================================================================================== */
-
-
 
 
 	/* ========================================================================================================================
@@ -276,7 +265,10 @@ function theme_scripts() {
   wp_deregister_script('jquery'); // Remove WordPress core's jQuery
     //Registers Google's cdn version
   wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js', false, null, false);
+    
+    
   add_filter('script_loader_src', 'theme_jquery_local_fallback', 10, 2);
+    
 }
 function theme_jquery_local_fallback($src, $handle) {
   static $add_jquery_fallback = false;
@@ -295,10 +287,13 @@ function theme_jquery_local_fallback($src, $handle) {
 /**Loads Bootstrap locally**/
     function bootstrap() {
         wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css' );
-    wp_register_script( 'bootstrap-script', get_template_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ), null, true );
+        wp_register_script( 'bootstrap-script', get_template_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ), null, true );
+        wp_register_script( 'mobile-swipe-script', get_template_directory_uri() . '/js/jquery.touchSwipe.min.js', array( 'jquery' ), null, true );
+        
  
     // For either a plugin or a theme, you can then enqueue the script:
     wp_enqueue_script( 'bootstrap-script' );
+    wp_enqueue_script( 'mobile-swipe-script' );
 }
 
 
@@ -353,7 +348,9 @@ function theme_jquery_local_fallback($src, $handle) {
 /*
 =====For either a plugin or a theme, you can then enqueue the script:========
 */
+    
     wp_enqueue_script( 'main_script' );
+    
     wp_enqueue_script( 'mailchimp' );    
         
   
@@ -426,7 +423,7 @@ function theme_jquery_local_fallback($src, $handle) {
           array_push($songwriter_contents_description, $field_name);}   
             }
 
-        /***CLEANUPS OF YOTUBE / IMAGES***/
+     /********CLEANUPS OF YOTUBE / IMAGES********/
             //Image cleaned up Div
     function if_img_tag($content_passed){
         $regex_img = '/(([a-zA-Z]+\:\/\/)*([a-zA-Z]{2,3}\.)*)*[a-zA-Z]+\.[a-zA-Z]{2,3}\/([\w-_]+\/)*[\w-_]+\.(jpg|jpeg|png|bmp|svg)/';
@@ -441,7 +438,8 @@ function theme_jquery_local_fallback($src, $handle) {
             $cleaned_up_img_tag[0] = 
             "<div class=\"img-container\" style=\"background-image:url(".$regex_img_match[0].")\"></div>";
             //echo $cleaned_up_img_tag;
-            $cleaned_up_img_tag[1] = $regex_img_match[0];
+            //$cleaned_up_img_tag[1] = $regex_img_match[0];
+            $cleaned_up_img_tag[1] =  $cleaned_up_img_tag[0];
             return $cleaned_up_img_tag;
             
         }
@@ -450,20 +448,22 @@ function theme_jquery_local_fallback($src, $handle) {
         }    
     }
 
-    //Youtube cleaned up iFrame Bootstrap
+    //Returns Youtube cleaned up iFrame Bootstraped if it is a valid youtube URL
     function if_youtube_iframe_bootstrap($content_passed){
         $regex_youtube = "/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/";
 
         //if it exist inside the content passed
         if(preg_match($regex_youtube, $content_passed, $regex_youtube_match)){
     
+            $youtube_video_id = $regex_youtube_match[2];
             //print_r($regex_youtube_match)
         //Just get the youtube ID of the first one and it will be the second match item in the array
 
         //Puts it all into a responsive iFrame
         $cleaned_up_youtube_iframe[0] = 
-            '<iframe width="810" height="500" frameborder="0"  src="http://www.youtube.com/embed/'.$regex_youtube_match[2].'?showinfo=0&controls=1&rel=0&theme=dark&modestbranding=1&fs=1&color=white&autohide=1" ></iframe>';
-            $cleaned_up_youtube_iframe[1] = ' http://www.youtube.com/embed/'.$regex_youtube_match[2].'?rel=0&amp;controls=0&amp;showinfo=0';
+            '<iframe width="810" height="500" frameborder="0"  src="http://www.youtube.com/embed/'.$youtube_video_id.'?showinfo=0&controls=1&rel=0&theme=dark&modestbranding=1&fs=1&color=white&autohide=1" ></iframe>';
+            
+            $cleaned_up_youtube_iframe[1] = ' <iframe scrolling="no" frameborder="0" src="http://www.youtube.com/embed/'.$youtube_video_id.'?rel=0&amp;controls=0&amp;showinfo=0"></iframe>';
             return $cleaned_up_youtube_iframe;
             
         }
@@ -472,7 +472,7 @@ function theme_jquery_local_fallback($src, $handle) {
         }
     }
 
-    //Youtube cleaned up iFrame
+    //Return Youtube cleaned up iFrame if it is valid Youtube URL
     function if_youtube_iframe($content_passed){
         $regex_youtube = "/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/";
 
@@ -492,7 +492,7 @@ function theme_jquery_local_fallback($src, $handle) {
         }
     }
         
-        //Returns the proper tags whether it's youtube or an image, if youtube will return an iFrame, if image will return the tag
+        //Returns the proper tags whether it's youtube or an image, if youtube will return an iFrame, if image will return the div tag
         function return_proper_tag($content_passed){
                  $check_if_youtube_result = if_youtube_iframe_bootstrap($content_passed); 
                 if($check_if_youtube_result){
@@ -620,6 +620,7 @@ function register_mysettings() {
     register_setting( $group_1_option, 'single_prjkt_songwriter_title' );
     
     register_setting( $group_1_option, 'single_prjkt_back_button' );
+    register_setting( $group_1_option, 'single_artsn_back_button' );
     register_setting( $group_1_option, 'single_prjkt_ajax_loader_text' );
 }
 /**
@@ -639,11 +640,25 @@ function sanitize( $input )
     return $new_input;
 }
 
-//Add Projects Dashboard
+/*
+================ADD EXTERNAL FILES===================
+*/
 $prjkts_slug = 'prjktsdashboard';
-get_template_part( $prjkts_slug );
+$theme_options_slug = 'theme-options';
+$shortcodes_slug = 'shortcodes';
+$metabox_slug = 'metaboxes';
+$customnav_slug = 'custom-nav';
 
-//Alternate header menu
+get_template_part($prjkts_slug); //Prjkt Dashboard
+get_template_part($theme_options_slug); //Theme Options
+get_template_part($shortcodes_slug); //Shortcodes
+get_template_part($metabox_slug); //Metaboxes
+get_template_part($customnav_slug); //Nav Walker to 
+
+
+/*
+================ALTERNATE MENU HEADER===================
+*/
 function get_alt_menu_header(){
     get_template_part('alt-menu-header');
 }

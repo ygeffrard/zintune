@@ -11,6 +11,9 @@
     .page-template-contact-template .company p{
         margin-bottom:0px;
     }
+    .page-title{
+        font-size:50px;
+    }
 </style>
 <?php 
     if ( have_posts() ) while ( have_posts() ) : the_post(); ?>

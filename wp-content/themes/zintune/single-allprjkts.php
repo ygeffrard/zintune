@@ -18,15 +18,22 @@
 </style>
         <div class="container-fluid clearfix text-center prjkt-content addvbottom40">
             <div class="row clearfix overlay"></div>
-            <div class="row clearfix text-white swappable-container">
+            <div class="clearfix text-white swappable-container container">
+                <!--Gets the back button to prjkts page-->
                 <div class="clearfix addvtop20">
                     <p class="col-sm-2 col-xs-12 menu-btn "><a href="<?php $single_prjkts_parent = get_page_by_title(get_option('single_prjkt_back_button'))->ID;
-      echo get_page_link($single_prjkts_parent);?>" data-toggle="tooltip" data-placement="top" title="Back To Prjkts" class="col-xs-6"> <span class="icon-eject nav-menu nav-menu-sm skinny-border center"></span></a>
-    <a href="#" data-toggle="tooltip" data-placement="top" title="Back To Artsns" class="col-xs-6 back-to-artsn"> <span class="icon-reply nav-menu nav-menu-sm skinny-border center"></span></a>
+      echo get_page_link($single_prjkts_parent);?>" data-toggle="tooltip" data-placement="bottom" title="Back To Prjkts" class="col-xs-6"> <span class="icon-eject nav-menu nav-menu-sm skinny-border center"></span></a>
+    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Back To Artsns" class="col-xs-6 back-to-artsn"> <span class="icon-reply nav-menu nav-menu-sm skinny-border center"></span></a>
                     </p>
                 <!--AJAX Should start swap here-->
                 <p class="col-sm-8 col-xs-12 lead-title artsn-menu"><?php
-        echo esc_attr( get_option('single_prjkt_header_text') ); ?></p></div>
+        echo esc_attr( get_option('single_prjkt_header_text') ); ?></p>
+                
+                <p class="col-sm-2 col-xs-12 menu-btn hidden-xs"><a href="#" data-toggle="tooltip" data-placement="bottom" title="" class="col-xs-6" data-original-title="Autoplay On?" style="visibility:hidden;"> <span class="icon-arrows-cw nav-menu nav-menu-sm skinny-border center"></span></a>
+    <a href="#" data-toggle="tooltip" data-placement="bottom" title="" class="col-xs-6 theater-mode-off" data-original-title="Theater Mode On?" style="visibility: visible; opacity: 1;"> <span class="glyphicon glyphicon-fullscreen nav-menu nav-menu-sm skinny-border center" style="
+"></span></a>
+                    </p>
+                </div>
         <?php 
 /*  get all custom fields, loop through them and load the field object because this should dynamically happen OOP style so if more content is added later and it's greater then 5, this code won't have to be rewritten
 */
